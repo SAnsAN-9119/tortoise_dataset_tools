@@ -217,8 +217,9 @@ def main():
         print("No folder selected for audio data. Exiting.")
         exit()
 
-    language = "de"
-    process_audio_files(base_directory=finetune_dir, model_name='large-v3', language=language, batch_size=16, speaker_name='coqui', audio_dir=chosen_directory)
+    language = "ru"
+    process_audio_files(base_directory=finetune_dir, language=language, num_processes=16, audio_dir=chosen_directory)
+
 
 if __name__ == "__main__":
     main()
