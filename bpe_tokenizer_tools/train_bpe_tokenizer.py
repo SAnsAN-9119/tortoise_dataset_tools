@@ -41,5 +41,5 @@ def train_tokenizer(input_path, tokenizer_path, language):
 
 if __name__ == "__main__":
     input_path = "bpe_train_text.txt"
-    tokenizer_path = "vietnamese_bpe_tokenizer.json"
-    train_tokenizer(input_path, tokenizer_path, language='vi')
+    tokenizer_path = "Cyrillik_bpe_tokenizer_from_214_audobook.json"
+    train_tokenizer(input_path, tokenizer_path, language='ru')

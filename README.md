@@ -14,7 +14,8 @@ cd tortoise-dataset-tools
 2. Create and activate venv to isolate packages from global python installation
 ```
 python -m venv venv
-.\venv\Scripts\activate
+.\venv\Scripts\activate (source ./venv/bin/activate)
+
 ```
 3. Install [pytorch](https://pytorch.org/get-started/locally/) or go to the link to find the latest:
 ```
