@@ -53,7 +53,7 @@ def main(file_path, output_dir):
 
 if __name__ == "__main__":
     # Path to the text file containing YouTube playlist URLs
-    file_path = 'youtube_download_links_2.txt'
+    file_path = '../../../audio/dataset_2_Ru/youtube_download_links_2.txt'
     # Prompt for the output directory
-    output_dir = '../../modules/tortoise_dataset_tools/dataset_whisper_tools/Read_by_Alexander_Bordukov_Ru'
+    output_dir = '../../modules/tortoise_dataset_tools/dataset_whisper_tools/dataset_2_Ru'
     main(file_path, output_dir)
