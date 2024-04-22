@@ -113,6 +113,13 @@ def process_audio_files(base_directory, language, audio_dir, num_processes, chun
     base_directory = Path(base_directory)
     audio_dir = Path(audio_dir)
 
+    # Iterate over all subdirectories in the audio_dir
+    for subdir in audio_dir.glob('*'):
+        if subdir.is_dir():
+            print(f"Processing directory: {subdir}")
+            process_audio_files(base_directory, language, subdir, num_processes, chunk_size, no_align, rename_files)
+
+    # The rest of the original code
     train_txt_path = base_directory / 'dataset' / 'train.txt'
     eval_txt_path = base_directory / 'dataset' / 'validation.txt'
     split_output_dir = base_directory / 'dataset' / 'wav_splits'
@@ -178,7 +185,7 @@ def process_audio_files(base_directory, language, audio_dir, num_processes, chun
 
             for segment_file, text in segment_details:
                 segment_path = srt_output_dir / segment_file
-                csv_entry_path = f"audio/{segment_path.relative_to(split_output_dir).as_posix().replace('/', '_')}"
+                csv_entry_path = f"audio/{segment_path.relative_to(split_output_dir).as_posix()}" #TODO убрать .replace('/', '_')
                 entry = f"{csv_entry_path}|{text}\n"
 
                 if random.random() < 0.05:
@@ -218,7 +225,7 @@ def main():
         exit()
 
     language = "ru"
-    process_audio_files(base_directory=finetune_dir, language=language, num_processes=16, audio_dir=chosen_directory)
+    process_audio_files(base_directory=finetune_dir, language=language, num_processes=16, audio_dir=chosen_directory, rename_files=False)
 
 
 if __name__ == "__main__":
