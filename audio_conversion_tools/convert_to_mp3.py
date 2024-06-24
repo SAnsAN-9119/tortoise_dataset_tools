@@ -14,10 +14,7 @@ def convert_audio(source_path, output_path, output_format):
         end = time.time()
         total_elapsed_time = end - start
         print(total_elapsed_time)
-        if output_format in ["mp3", "aac"]:
-            audio.export(output_path, format=output_format, bitrate="320k", parameters=["-ar", "22050"])
-        else:
-            audio.export(output_path, format=output_format)
+        audio.export(output_path, format=output_format, bitrate="320k", parameters=["-ar", "22050"])
         print(f"Converted {source_path} to {output_path}")
     except Exception as e:
         print(f"Error converting {source_path}: {e}")

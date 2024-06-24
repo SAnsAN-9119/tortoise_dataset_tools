@@ -8,6 +8,8 @@ A Python implementation of whisperx should be faster.
 import csv
 import random
 import subprocess
+import time
+
 import pysrt
 import shutil
 from pydub import AudioSegment
@@ -229,4 +231,7 @@ def main():
 
 
 if __name__ == "__main__":
+    start_time = time.time()
     main()
+    end_time = time.time()
+    print(f"Общее время выполнения: {end_time - start_time:.2f} секунд")
