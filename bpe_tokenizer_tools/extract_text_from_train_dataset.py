@@ -8,15 +8,17 @@ import os
 import tkinter as tk
 from tkinter import filedialog
 
-def select_input_file():
-    root = tk.Tk()
-    root.withdraw()  # Hide the main window
-    file_path = filedialog.askopenfilename(title="Select Input Text File", filetypes=(("Text files", "*.txt"), ("All files", "*.*")))
-    return file_path
 
-def extract_transcripts(input_file_path, output_file_path):
+def select_input_folder():
+    root = tk.Tk()
+    root.withdraw()  # Скрыть основное окно
+    folder_path = filedialog.askdirectory(title="Select Input Folder")
+    return folder_path
+
+
+def extract_transcripts_from_file(file_path, outfile):
     try:
-        with open(input_file_path, 'r', encoding='utf-8') as infile, open(output_file_path, 'w', encoding='utf-8') as outfile:
+        with open(file_path, 'r', encoding='utf-8') as infile:
             line_count, extracted_count = 0, 0
             for line in infile:
                 line_count += 1
@@ -26,18 +28,33 @@ def extract_transcripts(input_file_path, output_file_path):
                     transcript = parts[1].lower()  # Extract the transcript part
                     outfile.write(transcript + '\n')
                     extracted_count += 1
-            print(f"Processed {line_count} lines and extracted {extracted_count} transcripts.")
+            print(f"Processed {line_count} lines and extracted {extracted_count} transcripts from {file_path}.")
             if line_count == 0:
-                print("Warning: The input file is empty or does not exist.")
+                print(f"Warning: The input file {file_path} is empty or does not exist.")
             elif extracted_count == 0:
-                print("Warning: No transcripts were extracted. Check the format of your input file.")
+                print(f"Warning: No transcripts were extracted from {file_path}. Check the format of your input file.")
     except Exception as e:
-        print(f"An error occurred: {e}")
+        print(f"An error occurred while processing {file_path}: {e}")
 
-if __name__ == "__main__": 
-    input_file = select_input_file()
+
+if __name__ == "__main__":
+    input_folder = select_input_folder()
+    if not input_folder:
+        print("No folder selected. Exiting.")
+        exit()
+
     script_dir = os.path.dirname(os.path.abspath(__file__))
     output_file_path = os.path.join(script_dir, 'bpe_train_text.txt')
-    extract_transcripts(input_file, output_file_path)
 
-    print("Transcripts have been extracted and saved to:", output_file_path)
+    try:
+        with open(output_file_path, 'w', encoding='utf-8') as outfile:
+            for filename in ['train.txt', 'validation.txt']:
+                file_path = os.path.join(input_folder, filename)
+                if os.path.isfile(file_path):
+                    extract_transcripts_from_file(file_path, outfile)
+                else:
+                    print(f"Warning: The file {file_path} does not exist.")
+
+        print("Transcripts have been extracted and saved to:", output_file_path)
+    except Exception as e:
+        print(f"An error occurred: {e}")
