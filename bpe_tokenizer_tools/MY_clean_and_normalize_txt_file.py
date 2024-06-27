@@ -43,18 +43,20 @@ def process_file(input_file_path, output_file_path):
                 audio_path, text = line.split('|', 1)
                 cleaned_text = clean_and_normalize_text(text)
                 output_file.write(f"{audio_path}|{cleaned_text}\n")
+def main(files_to_process):
+    folder = select_folder()
+
+    for file_name in files_to_process:
+        input_file_path = os.path.join(folder, file_name)
+        output_file_name = f"{os.path.splitext(file_name)[0]}_cleaned.txt"
+        output_file_path = os.path.join(folder, output_file_name)
+
+        if os.path.exists(input_file_path):
+            process_file(input_file_path, output_file_path)
+            print(f"Файл {input_file_path} обработан и сохранен как {output_file_path}")
+        else:
+            print(f"Файл {input_file_path} не найден.")
 
 if __name__ == "__main__":
-    folder = select_folder()
-    train_file_path = os.path.join(folder, "train.txt")
-    validation_file_path = os.path.join(folder, "validation.txt")
-
-    if os.path.exists(train_file_path):
-        process_file(train_file_path, os.path.join(folder, "train_cleaned.txt"))
-    else:
-        print(f"Файл {train_file_path} не найден.")
-
-    if os.path.exists(validation_file_path):
-        process_file(validation_file_path, os.path.join(folder, "validation_cleaned.txt"))
-    else:
-        print(f"Файл {validation_file_path} не найден.")
+    files_to_process = ["train.txt", "validation.txt"]
+    main(files_to_process)
