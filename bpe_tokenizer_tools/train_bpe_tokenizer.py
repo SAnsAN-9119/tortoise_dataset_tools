@@ -1,6 +1,7 @@
 from tokenizers import Tokenizer
 from tokenizers.models import BPE
 from tokenizers.trainers import BpeTrainer
+from tokenizers.trainers import G2pTrainer
 from tokenizers.pre_tokenizers import Whitespace
 import json
 import re
@@ -23,9 +24,9 @@ def train_tokenizer(input_path, tokenizer_path, language):
     # Use a basic whitespace pre-tokenizer
     tokenizer.pre_tokenizer = Whitespace()
 
-    trainer = BpeTrainer(special_tokens=["[STOP]", "[UNK]", "[SPACE]", "0","1","2","3","4","5","6","7","8","9",], vocab_size=256)
+    trainer = BpeTrainer(special_tokens=["[STOP]", "[UNK]", "[SPACE]", ], vocab_size=256)
 
-    clean_text(input_path, input_path)
+    # clean_text(input_path, input_path)
     tokenizer.train([input_path], trainer)
 
     tokenizer.save(tokenizer_path)
@@ -40,6 +41,6 @@ def train_tokenizer(input_path, tokenizer_path, language):
         json.dump(tokenizer_json, f, ensure_ascii=False, indent=4)
 
 if __name__ == "__main__":
-    input_path = "bpe_train_text.txt"
-    tokenizer_path = "../../../files/output/Cyrillik_bpe_tokenizer_Na214+U.json"
+    input_path = "all_for_tokenizer.txt"
+    tokenizer_path = "../../../files/output/bpe_tokenizer_g2p_correct_vocab.json"
     train_tokenizer(input_path, tokenizer_path, language='ru')
